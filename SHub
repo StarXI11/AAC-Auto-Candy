@@ -1,0 +1,69 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local autoEnabled = false
+
+-- ปรับความเร็ววาป (วินาที)
+local warpDelay = 0.5 -- เปลี่ยนได้ เช่น 1, 2, 3 วาปช้าลง
+
+-- 🔧 สร้าง ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "AutoFarmGUI"
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- 🔘 ปุ่ม Toggle
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 150, 0, 50)
+button.Position = UDim2.new(0, 20, 0, 200)
+button.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+button.Text = "AUTO: OFF"
+button.Parent = gui
+
+-- 🔥 ปุ่ม Destroy GUI
+local destroyBtn = Instance.new("TextButton")
+destroyBtn.Size = UDim2.new(0, 150, 0, 50)
+destroyBtn.Position = UDim2.new(0, 20, 0, 260)
+destroyBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+destroyBtn.Text = "DESTROY GUI"
+destroyBtn.Parent = gui
+
+destroyBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+
+-- ปุ่มกดเปิด/ปิด Auto
+button.MouseButton1Click:Connect(function()
+	autoEnabled = not autoEnabled
+
+	if autoEnabled then
+		button.Text = "AUTO: ON"
+		button.BackgroundColor3 = Color3.fromRGB(80, 255, 80)
+	else
+		button.Text = "AUTO: OFF"
+		button.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+	end
+end)
+
+-- Auto Warp loop
+task.spawn(function()
+	while true do
+		if autoEnabled then
+			local char = player.Character or player.CharacterAdded:Wait()
+			local hrp = char:FindFirstChild("HumanoidRootPart")
+
+			if hrp then
+				for _, obj in pairs(workspace:GetChildren()) do
+					if obj:IsA("Model") then
+						local hitbox = obj:FindFirstChild("Hitbox")
+						if hitbox and hitbox:IsA("BasePart") then
+							hrp.CFrame = hitbox.CFrame + Vector3.new(0, 2, 0)
+							
+							task.wait(warpDelay) -- 🐌 วาปช้าลงตามที่ตั้งไว้
+						end
+					end
+				end
+			end
+		end
+		task.wait(0.1)
+	end
+end)
