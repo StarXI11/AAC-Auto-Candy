@@ -3,7 +3,7 @@ local player = Players.LocalPlayer
 
 local autoEnabled = false
 
-local warpDelay = 0.5 -- เปลี่ยนได้ เช่น 1, 2, 3 วาปช้าลง
+local warpDelay = 0.5 -- 
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "AutoFarmGUI"
