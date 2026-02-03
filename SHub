@@ -3,15 +3,12 @@ local player = Players.LocalPlayer
 
 local autoEnabled = false
 
--- ปรับความเร็ววาป (วินาที)
 local warpDelay = 0.5 -- เปลี่ยนได้ เช่น 1, 2, 3 วาปช้าลง
 
--- 🔧 สร้าง ScreenGui
 local gui = Instance.new("ScreenGui")
 gui.Name = "AutoFarmGUI"
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- 🔘 ปุ่ม Toggle
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 150, 0, 50)
 button.Position = UDim2.new(0, 20, 0, 200)
@@ -19,7 +16,6 @@ button.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
 button.Text = "AUTO: OFF"
 button.Parent = gui
 
--- 🔥 ปุ่ม Destroy GUI
 local destroyBtn = Instance.new("TextButton")
 destroyBtn.Size = UDim2.new(0, 150, 0, 50)
 destroyBtn.Position = UDim2.new(0, 20, 0, 260)
@@ -31,7 +27,6 @@ destroyBtn.MouseButton1Click:Connect(function()
 	gui:Destroy()
 end)
 
--- ปุ่มกดเปิด/ปิด Auto
 button.MouseButton1Click:Connect(function()
 	autoEnabled = not autoEnabled
 
